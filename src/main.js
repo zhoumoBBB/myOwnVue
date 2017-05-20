@@ -5,13 +5,38 @@ import App from './App'
 import $ from 'jquery'
 import vueResource from 'vue-resource'
 import Animate from 'animate.css'
+import VueRouter from 'vue-router'
 Vue.config.productionTip = false
-Vue.use(vueResource)
 /* eslint-disable no-new */
-var vm=new Vue({
-    el: '#app',
-    template: '<App/>',
-    components: {
-        App
-    }
+Vue.use(vueResource)
+Vue.use(VueRouter)
+var routes = [{
+	path: '/com1',
+	component: com1
+}, {
+	path: '/com2',
+	component: com2,
+	children:[
+	{
+		path:'/com2/children1',
+		component:children1
+	},
+	{
+		path:'/com2/children2',
+		component:children2
+	}
+	]
+}];
+var router=new VueRouter({
+	routes,
+	linkActiveClass:'active'
 });
+new Vue({
+	el: '#app',
+	router,
+	template: '<App/>',
+	components: {
+		App
+	}
+});
+router.push('com2');
